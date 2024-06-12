@@ -13,7 +13,7 @@
             <label for="listing_location">Location:</label>
             <select id="listing_location" name="listing_location" required>
                 {% for location in locations %}
-                <option value="{{ location.id }}">{{ location.name }}</option>
+                <option value="{{ location }}">{{ location.name }}</option>
                 {% endfor %}
             </select>
 

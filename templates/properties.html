@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Listings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Property Listings</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Location</th>
+                    <th>Bedrooms</th>
+                    <th>Bathrooms</th>
+                    <th>Carports</th>
+                    <th>Surface Area</th>
+                    <th>Building Area</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for property in properties %}
+                <tr>
+                    <td>{{ property.id }}</td>
+                    <td>{{ property.location }}</td>
+                    <td>{{ property.bed }}</td>
+                    <td>{{ property.bath }}</td>
+                    <td>{{ property.carport }}</td>
+                    <td>{{ property.surface_area }}</td>
+                    <td>{{ property.building_area }}</td>
+                    <td>{{ property.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

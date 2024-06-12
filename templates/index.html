@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Situs Pencarian Rumah</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculate Property Price</h1>
+        <form method="POST">
+            <label for="listing_location">Location:</label>
+            <select id="listing_location" name="listing_location" required>
+                {% for location in locations %}
+                <option value="{{ location.id }}">{{ location.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="bed">Number of Bedrooms:</label>
+            <input type="number" id="bed" name="bed" required>
+
+            <label for="bath">Number of Bathrooms:</label>
+            <input type="number" id="bath" name="bath" required>
+
+            <label for="carport">Number of Carports:</label>
+            <input type="number" id="carport" name="carport" required>
+
+            <label for="surface_area">Surface Area (m²):</label>
+            <input type="number" id="surface_area" name="surface_area" required>
+
+            <label for="building_area">Building Area (m²):</label>
+            <input type="number" id="building_area" name="building_area" required>
+
+            <input type="submit" value="Calculate Price">
+        </form>
+
+        {% if price is not none %}
+            <h2>Estimated Price: {{ price }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>

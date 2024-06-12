@@ -11,9 +11,9 @@
         <h1>Calculate Property Price</h1>
         <form method="POST">
             <label for="listing_location">Location:</label>
-            <select id="listing_location" name="listing_location" required>
+            <select id="listing_location" name="listing_location">
                 {% for location in locations %}
-                <option value="{{ location }}">{{ location.name }}</option>
+                <option value="{{ location }}">{{ location }}</option>
                 {% endfor %}
             </select>
 

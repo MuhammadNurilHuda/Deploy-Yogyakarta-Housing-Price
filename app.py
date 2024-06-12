@@ -22,15 +22,15 @@ class Property(db.Model):
     carport = db.Column(db.Integer, nullable=False)
     surface_area = db.Column(db.Integer, nullable=False)
     building_area = db.Column(db.Integer, nullable=False)
-    predicted_price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
 
-def add_property_to_db(locations, bed, bath, carport, surface_area, building_area, predicted_price):
+def add_property_to_db(locations, bed, bath, carport, surface_area, building_area, price):
     conn = sqlite3.connect('instance/yogyakarta-housing-price.db')
     cursor = conn.cursor()
-    cursor.execute('''INSERT INTO properties (locations, bed, bath, carport, surface_area, building_area, predicted_price)
+    cursor.execute('''INSERT INTO properties (locations, bed, bath, carport, surface_area, building_area, price)
                       VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                   (locations, bed, bath, carport, surface_area, building_area, predicted_price))
+                   (locations, bed, bath, carport, surface_area, building_area, price))
     conn.commit()
     conn.close()
 
@@ -55,6 +55,8 @@ def home():
     'Imogiri, Yogyakarta', 'Nologaten, Yogyakarta', 'Caturtunggal, Yogyakarta', 'Kulonprogo, Yogyakarta',
     'Purwomartani, Yogyakarta', 'Sekip, Yogyakarta', 'Karangmojo, Gunung Kidul']
 
+    price = None  # Inisialisasi predicted_price di luar blok if
+
     if request.method == 'POST':
         location = str(request.form['listing_location'])
         bed = int(request.form['bed'])
@@ -68,14 +70,15 @@ def home():
         temp_df = pd.DataFrame(data, columns=['listing-location', 'bed', 'bath', 'carport', 'surface_area', 'building_area'])
         temp_df = pd.get_dummies(temp_df, columns=['listing-location'])
         temp_df = temp_df.reindex(columns=Transform.columns, fill_value=0)
-        predicted_price = model.predict([temp_df.iloc[0]])
+        price = model.predict([temp_df.iloc[0]])
 
         new_property = Property(location=location, bed=bed, bath=bath, carport=carport, surface_area=surface_area,
-                                building_area=building_area, price=price)
+                        building_area=building_area, price=price)
+
         db.session.add(new_property)
         db.session.commit()
 
-    return render_template('index.html', locations=locations, price = predicted_price)
+    return render_template('index.html', locations=locations, price = price)
 
 
 # Route to view all properties

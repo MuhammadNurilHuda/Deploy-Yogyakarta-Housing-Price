@@ -3,41 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Situs Pencarian Rumah</title>
+    <title>Situs Perhitungan Harga Properti</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Calculate Property Price</h1>
-        <form method="POST">
-            <label for="listing_location">Location:</label>
-            <select id="listing_location" name="listing_location">
-                {% for location in locations %}
-                <option value="{{ location }}">{{ location }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="bed">Number of Bedrooms:</label>
-            <input type="number" id="bed" name="bed" required>
-
-            <label for="bath">Number of Bathrooms:</label>
-            <input type="number" id="bath" name="bath" required>
-
-            <label for="carport">Number of Carports:</label>
-            <input type="number" id="carport" name="carport" required>
-
-            <label for="surface_area">Surface Area (m²):</label>
-            <input type="number" id="surface_area" name="surface_area" required>
-
-            <label for="building_area">Building Area (m²):</label>
-            <input type="number" id="building_area" name="building_area" required>
-
-            <input type="submit" value="Calculate Price">
+        <h1>Perhitungan Harga Properti di Yogyakarta</h1>
+        <form id="propertyForm" method="POST">
+            <div class="form-group">
+                <label for="listing_location">Lokasi:</label>
+                <select id="listing_location" name="listing_location" class="form-control">
+                    {% for location in locations %}
+                    <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bed">Jumlah Kamar:</label>
+                <input type="number" id="bed" name="bed" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="bath">Jumlah Kamar Mandi:</label>
+                <input type="number" id="bath" name="bath" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="carport">Jumlah Garasi:</label>
+                <input type="number" id="carport" name="carport" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="surface_area">Luas Area (m²):</label>
+                <input type="number" id="surface_area" name="surface_area" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="building_area">Luas Bangunan (m²):</label>
+                <input type="number" id="building_area" name="building_area" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Hitung Harga</button>
         </form>
-
-        {% if price is not none %}
-            <h2>Estimated Price: {{ price }}</h2>
-        {% endif %}
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel">Hasil Estimasi Harga</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Lokasi:</strong> <span id="modal-location"></span></p>
+                    <p><strong>Jumlah Kamar:</strong> <span id="modal-bed"></span></p>
+                    <p><strong>Jumlah Kamar Mandi:</strong> <span id="modal-bath"></span></p>
+                    <p><strong>Garasi:</strong> <span id="modal-carport"></span></p>
+                    <p><strong>Luas Area (m²):</strong> <span id="modal-surface_area"></span></p>
+                    <p><strong>Luas Bangunan (m²):</strong> <span id="modal-building_area"></span></p>
+                    <p><strong>Harga Prediksi:</strong> <span id="modal-price"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </body>
 </html>
